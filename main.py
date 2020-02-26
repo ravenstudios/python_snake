@@ -1,13 +1,13 @@
 from constants import *
 import pygame
-
-
+import snake
 
 clock = pygame.time.Clock()
 surface = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
 
 pygame.init()
 
+snake = snake.Snake()
 
 def main():
     running = True
@@ -17,6 +17,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
         draw()
         update()
 
@@ -26,12 +27,13 @@ def main():
 
 def draw():
     surface.fill((0, 0, 0))#background
+    snake.draw(surface)
     pygame.display.flip()
 
 
 
 def update():
-    pass
+    snake.update()
 
 
 
