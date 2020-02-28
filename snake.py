@@ -6,49 +6,84 @@ class Snake:
         self.x = COLS // 2 * BLOCK_SIZE
         self.y = ROWS // 2 * BLOCK_SIZE
         self.width, self.height = BLOCK_SIZE, BLOCK_SIZE
-        self.dir = "E"#moves east
+        self.dir = "W"#moves east
         self.parts = [(self.x, self.y)]
+
+
+
     def update(self):
         self.key_input()
         self.move()
+#check_collide_body() is called in move
+#because we need to check if the new x
+#and y are alread in the body_parts list
+        # self.check_edge()
+
 
     def draw(self, surface):
         for part in self.parts:
-            pygame.draw.rect(surface, WHITE, (part[0], part[1], self.width, self.height))
+            pygame.draw.rect(surface, BLACK, (part[0], part[1], self.width, self.height), 3)
+            pygame.draw.rect(surface, WHITE, (part[0], part[1], self.width, self.height), 3)
+
+
+
+    def check_edge(self):
+        if self.x < 0 or self.x + BLOCK_SIZE > GAME_WIDTH or self.y < 0 or self.y + BLOCK_SIZE > GAME_HEIGHT:
+            self.game_over()
+
+
+
+
+    def check_collide_body(self):
+        if (self.x, self.y) in self.parts:
+            print("hit!!!")
+            return True
+
+
+    def game_over(self):
+        print("game over")
+        pygame.quit()
 
 
 
     def move(self):
         if self.dir == "N":
-            if self.y > 0:
-                self.y += -BLOCK_SIZE
+            self.y += -BLOCK_SIZE
         if self.dir == "E":
-            if self.x + self.width < GAME_WIDTH:
-                self.x += BLOCK_SIZE
+            self.x += BLOCK_SIZE
         if self.dir == "S":
-            if self.y + self.height < GAME_HEIGHT:
-                self.y += BLOCK_SIZE
+            self.y += BLOCK_SIZE
         if self.dir == "W":
-            if self.x > 0:
-                self.x += -BLOCK_SIZE
+            self.x += -BLOCK_SIZE
+
+        if self.check_collide_body():
+            self.game_over()
+#inserts the current x and y into the first
+#position in the parts list and then removes the
+#last item
         self.parts.insert(0, (self.x, self.y))
         self.parts.pop()
 
 
 
     def key_input(self):
-        keys=pygame.key.get_pressed()
+        keys = pygame.key.get_pressed()
 
         if keys[pygame.K_UP]:
-            self.dir = "N"
+            if self.dir != "S":
+                self.dir = "N"
         if keys[pygame.K_DOWN]:
-            self.dir = "S"
+            if self.dir != "N":
+                self.dir = "S"
         if keys[pygame.K_LEFT]:
-            self.dir = "W"
+            if self.dir != "E":
+                self.dir = "W"
         if keys[pygame.K_RIGHT]:
-            self.dir = "E"
+            if self.dir != "W":
+                self.dir = "E"
         if keys[pygame.K_SPACE]:
             self.add_part()
+
 
 
     def add_part(self):
@@ -67,6 +102,8 @@ class Body_Part:
         self.y = y
         self.width = BLOCK_SIZE
         self.height = BLOCK_SIZE
+
+
 
     def update(self):
         pass

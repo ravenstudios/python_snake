@@ -6,11 +6,12 @@ class Apple:
 
         self.rect = pygame.Rect(
         random.randint(0, COLS - 1) * BLOCK_SIZE,
-        random.randint(0, ROWS - 1) * BLOCK_SIZE, BLOCK_SIZE,
+        random.randint(0, ROWS - 1) * BLOCK_SIZE,
+        BLOCK_SIZE,
         BLOCK_SIZE
         )
         self.relocate()
-
+        print(self.rect)
 
     def update(self, snake):
         if self.rect.colliderect(snake.get_rect()):
@@ -22,5 +23,6 @@ class Apple:
         pygame.draw.rect(surface, RED, self.rect)
 
     def relocate(self):
-        self.rect.x = random.randint(0, COLS) * BLOCK_SIZE
-        self.rect.y = random.randint(0, ROWS) * BLOCK_SIZE
+        self.rect.x = random.randint(0, COLS - 1) * BLOCK_SIZE
+        self.rect.y = random.randint(0, ROWS - 1) * BLOCK_SIZE
+        print(self.rect)
