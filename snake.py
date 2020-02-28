@@ -53,7 +53,14 @@ class Snake:
 
     def add_part(self):
         self.parts.insert(0, (self.x, self.y))
-        
+
+
+
+    def get_rect(self):
+        return pygame.Rect(self.x, self.y, self.width, self.height)
+
+
+
 class Body_Part:
     def __init__(self, x, y):
         self.x = x
